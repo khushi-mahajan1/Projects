@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Packet Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <h2>📦 Packet Management</h2>
+        <a href="/dashboard" class="btn btn-secondary">⬅ Back</a>
+    </div>
+
+    <!-- ADD PACKET FORM -->
+    <div class="card p-3 mb-4">
+
+        <form method="POST" action="/add_packet">
+
+            <div class="row">
+
+                <!-- COURSE -->
+                <div class="col-md-6">
+                    <label class="form-label">Select Course</label>
+                    <select name="course_id" class="form-control" required>
+                        <option value="">-- Select Course --</option>
+                        {% for c in courses %}
+                        <option value="{{ c.id }}">{{ c.course_code }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- SCRIPTS -->
+                <div class="col-md-6">
+                    <label class="form-label">Total Scripts</label>
+                    <input type="number" name="script_count" class="form-control" required>
+                </div>
+
+            </div>
+
+            <!-- CALENDAR DATE -->
+            <div class="mt-3">
+                <label class="form-label">Evaluation Date</label>
+
+                <!-- ✅ THIS IS THE CORRECT CALENDAR INPUT -->
+                <input type="date" name="eval_date" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">
+                Add Packet
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="card p-3">
+
+        <h5 class="mb-3">📋 Packet List</h5>
+
+        <table class="table table-bordered table-striped">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Packet</th>
+                    <th>Course</th>
+                    <th>Scripts</th>
+                    <th>Eval Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for packet in packets %}
+                <tr>
+                    <td>{{ packet.id }}</td>
+                    <td>{{ packet.packet_name }}</td>
+                    <td>{{ packet.course_code }}</td>
+                    <td>{{ packet.script_count }}</td>
+
+                    <!-- DATE DISPLAY FIX -->
+                    <td>
+                        {% if packet.eval_date %}
+                            {{ packet.eval_date }}
+                        {% else %}
+                            <span class="text-muted">Not Assigned</span>
+                        {% endif %}
+                    </td>
+
+                    <td>{{ packet.status }}</td>
+
+                    <td>
+                        <a href="/edit_packet/{{ packet.id }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/delete_packet/{{ packet.id }}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Delete this packet?')">
+                            Delete
+                        </a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

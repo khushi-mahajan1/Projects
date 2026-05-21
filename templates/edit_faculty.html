@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    
+    <title>Edit Faculty</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-primary px-4">
+    <span class="navbar-brand">✏ Edit Faculty</span>
+    <a href="/faculty" class="btn btn-light btn-sm">Back</a>
+</nav>
+
+<!-- Main Container -->
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-lg p-4">
+                <h4 class="text-center mb-4">Update Faculty Details</h4>
+
+                <form method="POST">
+
+                    <!-- Name -->
+                    <div class="mb-3">
+                        <label class="form-label">Faculty Name</label>
+                        <input type="text" name="name" 
+                               value="{{ faculty.name }}" 
+                               class="form-control" required>
+                    </div>
+
+                    <!-- Department -->
+                    <div class="mb-3">
+                        <label class="form-label">Department</label>
+                        <input type="text" name="department" 
+                               value="{{ faculty.department }}" 
+                               class="form-control" required>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="/faculty" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

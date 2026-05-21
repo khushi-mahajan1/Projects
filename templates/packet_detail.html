@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Packet Detail</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f6f9;
+        }
+
+        .card {
+            width: 400px;
+            margin: 80px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .title {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        .row {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .pending { background-color: orange; }
+        .evaluated { background-color: blue; }
+        .scrutinized { background-color: green; }
+
+        .btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2 class="title">📦 Packet Details</h2>
+
+    <div class="row"><span class="label">ID:</span> {{ packet.id }}</div>
+    <div class="row"><span class="label">Name:</span> {{ packet.packet_name }}</div>
+    <div class="row"><span class="label">Course:</span> {{ packet.course_name }}</div>
+    <div class="row"><span class="label">Scripts:</span> {{ packet.script_count }}</div>
+
+    <!-- STATUS WITH COLOR -->
+    <div class="row">
+        <span class="label">Status:</span>
+        <span class="status 
+            {% if packet.status == 'Pending' %} pending
+            {% elif packet.status == 'Evaluated' %} evaluated
+            {% else %} scrutinized
+            {% endif %}
+        ">
+            {{ packet.status }}
+        </span>
+    </div>
+
+    <a href="/auto_allocate" class="btn">⬅ Back</a>
+</div>
+
+</body>
+</html>

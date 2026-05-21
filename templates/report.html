@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Allocation Report</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        .top-bar {
+            margin: 20px;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: green;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: darkgreen;
+        }
+
+        .btn-blue {
+            background-color: blue;
+        }
+
+        .btn-blue:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>📊 Allocation Report</h2>
+
+    <!-- 🔹 Buttons -->
+    <div class="top-bar">
+        <a href="/download_pdf" class="btn">⬇ Download PDF</a>
+        <a href="/dashboard" class="btn btn-blue">⬅ Back</a>
+    </div>
+
+    <!-- 🔹 Table -->
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Slot</th>
+            <th>Faculty</th>
+            <th>Packet</th>
+            <th>Activity</th>
+        </tr>
+
+        {% if data|length == 0 %}
+        <tr>
+            <td colspan="5">No allocation data available</td>
+        </tr>
+        {% endif %}
+
+        {% for row in data %}
+        <tr>
+            <td>{{ row['date'] }}</td>
+            <td>
+                {% if row['slot'] == 1 %}
+                    Morning
+                {% else %}
+                    Afternoon
+                {% endif %}
+            </td>
+            <td>{{ row['name'] }}</td>
+            <td>{{ row['packet_name'] }}</td>
+            <td>{{ row['activity'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schedule Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <!-- 🔙 BACK BUTTON -->
+    <div style="margin-bottom:15px;">
+        <a href="/dashboard" class="btn btn-secondary btn-sm">
+            ⬅ Back
+        </a>
+    </div>
+
+    <!-- 📅 HEADING -->
+    <h2 class="text-center mb-4">📅 Schedule Management</h2>
+
+    <!-- 📌 SCHEDULE FORM -->
+    <div class="card p-3 mb-4">
+
+        <form method="POST" action="/add_schedule">
+
+            <!-- DATE -->
+            <div class="mb-3">
+                <label>Date</label>
+                <input type="date" name="exam_date" class="form-control" required>
+            </div>
+
+            <!-- COURSE CODE -->
+            <div class="mb-3">
+                <label>Course Code</label>
+                <select name="course_code" class="form-control" required>
+                    <option value="">Select Course Code</option>
+                    {% for c in courses %}
+                        <option value="{{ c['course_code'] }}">
+                            {{ c['course_code'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- COURSE NAME -->
+            <div class="mb-3">
+                <label>Course Name</label>
+                <select name="course_name" class="form-control" required>
+                    <option value="">Select Course Name</option>
+                    {% for c in courses %}
+                        <option value="{{ c['course_name'] }}">
+                            {{ c['course_name'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- SLOT -->
+            <div class="mb-3">
+                <label>Slot</label>
+                <select name="slot" class="form-control" required>
+                    <option value="">Select Slot</option>
+                    <option value="Morning">Morning</option>
+                    <option value="Afternoon">Afternoon</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Add Schedule
+            </button>
+
+        </form>
+    </div>
+
+    <!-- 📋 SCHEDULE TABLE -->
+    <div class="card p-3">
+
+        <h5 class="mb-3">📋 Scheduled Exams</h5>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Slot</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for s in schedules %}
+                <tr>
+                    <td>{{ s['exam_date'] }}</td>
+                    <td>{{ s['course_code'] }}</td>
+                    <td>{{ s['course_name'] }}</td>
+                    <td>{{ s['slot'] }}</td>
+
+                    <!-- ✅ ACTION BUTTONS -->
+                    <td>
+                        <a href="/edit_schedule/{{ s['id'] }}" 
+                           class="btn btn-warning btn-sm">
+                            Edit
+                        </a>
+
+                        <a href="/delete_schedule/{{ s['id'] }}" 
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure you want to delete?')">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+<!-- 🔁 AUTO SYNC COURSE CODE → COURSE NAME -->
+<script>
+const courseMap = {
+    {% for c in courses %}
+        "{{ c['course_code'] }}": "{{ c['course_name'] }}",
+    {% endfor %}
+};
+
+document.querySelector("select[name='course_code']").addEventListener("change", function () {
+    let code = this.value;
+    document.querySelector("select[name='course_name']").value = courseMap[code] || "";
+});
+</script>
+
+</body>
+</html>
